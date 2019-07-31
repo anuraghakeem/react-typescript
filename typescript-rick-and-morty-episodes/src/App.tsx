@@ -1,12 +1,29 @@
 import React from 'react'
 
-import {Store} from './Store'
+import {Store, IAction} from './Store'
+
+interface IEpisode{
+  airdate: string,
+  airstamp: string,
+  airtime: string,
+  id: number,
+  image: {medium: string, original: string},
+  name: string,
+  number: number,
+  runtime: number,
+  season: number,
+  summary: string,
+  url: string
+}
 
 export default function App():JSX.Element {
   const {state,dispatch}= React.useContext(Store)
 
   React.useEffect(()=>{
-    state.episodes.length===0 && fetchDataAction()
+    // state.episodes.length===0 && fetchDataAction()
+    if(state.episodes.length===0){
+      fetchDataAction()
+    }
   })
 
   const fetchDataAction=async ()=>{
@@ -18,30 +35,37 @@ export default function App():JSX.Element {
       payload: dataJSON._embedded.episodes
     })
   }
+
+  const toggleFavAction= (episode:IEpisode)=>{
+    return dispatch({
+      type:'ADD_FAV',
+      payload: episode
+    })
+  }
+
   console.log(state)
+  
   return (
     <React.Fragment>
-      <h1>Rick and Morty</h1>
-      <p>Which is your favorite episode?</p>
-      <section>
-        {state.episodes.map((episode:any)=>{
-          return(
-            <section key={episode.id}>
-              {/* {console.log(episode)} */}
-              {/* <img src={episode.image.medium} alt={`Rick and Morty ${episode.name}`} /> */}
-              <div>
-                {episode.type}
-              </div>
-              <div>
-                {episode.name}
-              </div>
+      <header className="header">
+        <h1>Rick and Morty</h1>
+        <p>Which is your favorite episode?</p>
+      </header>
+      <section className="episode-layout">
+        {state.episodes.map((episode:IEpisode)=>{
+          return (
+            <section key={episode.id} className="epsiode-box">
+              <img src={episode.image && episode.image.medium} 
+              alt={`Rick and Morty ${episode.name}`} />
+              <div>{episode.name}</div>
               <section>
-                Season: {episode.season} Number: {episode.number}
+                <div>Season: {episode.season} Number: {episode.number}</div>
+                <button type='button' onClick={()=>toggleFavAction(episode)}>Fav</button>
               </section>
             </section>
           )
         })}
-      </section>     
+      </section>    
     </React.Fragment>
   )
 }
