@@ -16,8 +16,8 @@ export default function App(props:any):JSX.Element {
           <p>Which is your favorite episode?</p>
         </div>
         <div>
-          <Link to="/">Home</Link>
-          <Link to="/fav">Favourite(s):{state.favourites.length}</Link>
+          <Link to="/" className="links">Home</Link>
+          <Link to="/fav" className="links">Favourite(s):{state.favourites.length}</Link>
         </div>
       </header>
       {props.children}
