@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {IEpisode, IState, IAction} from './interfaces'
+import {IState, IAction} from './interfaces'
 
 
 
