@@ -4,9 +4,11 @@
 |--------------------------------------------------
 */
 
+export type Dispatch= React.Dispatch<IAction>
+
 export interface IState{
-    episodes:Array<any>,
-    favourites:Array<any>
+    episodes:Array<IEpisode>,
+    favourites:Array<IEpisode>
 }
 
 export interface IAction{
@@ -30,6 +32,7 @@ export interface IEpisode{
 
 export interface IEpisodeProps{
     episodes:Array<IEpisode>,
-    toggleFavAction:(episode: IEpisode) => IAction,
+    store:{state:IState,dispatch:Dispatch}
+    toggleFavAction:(state:IState,dispatch:Dispatch,episode: IEpisode) => IAction,
     favourites:Array<IEpisode>
   }
